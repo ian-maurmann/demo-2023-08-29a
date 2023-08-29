@@ -1,0 +1,4 @@
+# Make sure GitHub marks this repo's language as PHP
+# --------------------------------------------------
+* linguist-vendored
+*.php linguist-vendored=false
