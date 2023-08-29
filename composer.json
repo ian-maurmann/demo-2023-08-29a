@@ -16,6 +16,9 @@
             "WordDensityDemo\\WordDensityApplication\\": [
                 "src/application/",
                 "src/application/lorem-ipsum/"
+            ],
+            "WordDensityDemo\\WordDensityTheme\\": [
+                "src/theme/"
             ]
         }
     }
