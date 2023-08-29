@@ -17,7 +17,7 @@ use Pith\Framework\PithRouteList;
 
 /**
  * Class DemoAppRouteList
- * @package Pith\DemoApp
+ * @package WordDensityDemo
  */
 class RouteList extends PithRouteList
 {
