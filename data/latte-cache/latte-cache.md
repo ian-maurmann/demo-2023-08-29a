@@ -1,0 +1,1 @@
+The Latte Template cache will go in this folder.
