@@ -12,6 +12,9 @@
         "psr-4": {
             "WordDensityDemo\\": [
                 "src/"
+            ],
+            "WordDensityDemo\\WordDensityApplication\\": [
+                "src/application/"
             ]
         }
     }
