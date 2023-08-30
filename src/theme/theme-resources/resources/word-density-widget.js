@@ -27,7 +27,7 @@ WordDensityWidget.listen = function(){
 
     // Click Events
     Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',          'click', self.handleOnClickAddNewUrlButton);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> open-url-listing"]', 'click', self.handleOnOpenUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]', 'click', self.handleOnToggleUrlListing);
 }
 
 
@@ -181,8 +181,13 @@ WordDensityWidget.populateUrlList = function(url_results){
     $.each(url_results, function( result_index, result ) {
 
         let url_listing_html = '' +
-            '<div class="url-listing-row" data-click-event="word-density-ui >>> open-url-listing">' +
-                '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
+            '<div class="url-listing" data-is-opened="no">' +
+                '<div class="url-listing-row" data-click-event="word-density-ui >>> click-url-listing">' +
+                    '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
+                '</div>' +
+                '<div class="url-listing-tray">' +
+                    '<span>' + result.url + ' was added on ' + result.datetime_added + '</span>' +
+                '</div>' +
             '</div>';
 
         main_container.append(url_listing_html);
@@ -191,11 +196,21 @@ WordDensityWidget.populateUrlList = function(url_results){
 
 
 
-// Handle Open Url Listing
-WordDensityWidget.handleOnOpenUrlListing = function(element, event){
-    let self = WordDensityWidget;
+// Handle On Toggle Url Listing
+WordDensityWidget.handleOnToggleUrlListing = function(element, event){
+    let self        = WordDensityWidget;
+    let listing_row = $(element);
+    let listing     = listing_row.parent().closest('.url-listing');
+    let is_open     = listing.attr('data-is-opened') === 'yes';
 
-    alert('handleOnOpenUrlListing');
+    // Toggle
+    if(is_open){
+        listing.attr('data-is-opened', 'no');
+    }
+    else{
+        listing.attr('data-is-opened', 'yes');
+    }
+
 }
 
 
