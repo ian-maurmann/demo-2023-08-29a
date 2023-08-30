@@ -54,10 +54,37 @@ WordDensityWidget.handleOnClickAddNewUrlButton = function(element, event){
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                html: 'URL',
-                icon: 'success',
+
+            let fields = {
+                new_url : new_url
+            }
+
+            // Make an ajax request
+            let jqxhr = $.post( "/ajax/add-new-url", fields, function() {
+                // Do nothing for now
+            }).done(function(data) {
+                let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+                let is_message_success = message_status === 'success';
+                let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+                let is_action_success = action_status === 'success';
+
+                if (is_message_success) {
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Added new URL',
+                        icon: 'success',
+                    });
+                }
+                else{
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Encountered a problem adding the new URL',
+                        icon: 'error',
+                    });
+                }
             });
+
+
         }
     });
 }
