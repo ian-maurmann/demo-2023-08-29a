@@ -23,19 +23,29 @@ use Pith\Framework\PithAction;
  */
 class AddNewUrlAjaxAction extends PithAction
 {
-    public function __construct(){
+    private UrlService $url_service;
+
+    public function __construct(UrlService $url_service){
         // Set object dependencies
+        $this->url_service = $url_service;
     }
 
     public function runAction()
     {
+        // Get user-supplied content from the request fields
         $new_url_unsafe = $_REQUEST['new_url'] ?? '';
 
-        // Call service object here
-
+        // Set vars
         $did_add_new_url = false;
         $is_successful   = false;
+        $is_url_valid    = $this->url_service->isUrlValid($new_url_unsafe);
 
+        // Add URL
+        if($is_url_valid){
+            $did_add_new_url = $this->url_service->addNewUrl($new_url_unsafe);
+            $is_successful   = $did_add_new_url;
+        }
+        
         // Build the response
         $response = [
             'message_status' => 'success',
