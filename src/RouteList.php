@@ -35,6 +35,7 @@ class RouteList extends PithRouteList
         ['route',       'GET',           '/favicon.ico',                                     '\\Pith\\Framework\\SharedUiResourcePack\\PithFrameworkLogoFaviconIcoRoute'],
         ['route',       ['GET', 'POST'], '/lorem-ipsum',                                     '\\WordDensityDemo\\WordDensityApplication\\LoremIpsumRoute'],
         ['route',       'GET',           '/resources/framework/shared-ui/{filepath:.+}',     '\\Pith\\Framework\\SharedUiResourcePack\\SharedUiApplicationResourceRoute'],
+        ['route',       'GET',           '/resources/theme/{filepath:.+}',                   '\\WordDensityDemo\\WordDensityTheme\\ThemeResourceRoute'],
         ['route',       'GET',           '/resources/vendor/common-fonts/{filepath:.+}',     '\\Pith\\Framework\\CommonFontsResourcePack\\CommonFontsResourceRoute'],
         ['route',       'GET',           '/resources/vendor/common-libraries/{filepath:.+}', '\\Pith\\Framework\\CommonLibrariesResourcePack\\CommonLibrariesResourceRoute'],
 

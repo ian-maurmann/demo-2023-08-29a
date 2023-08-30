@@ -18,7 +18,8 @@
                 "src/application/lorem-ipsum/"
             ],
             "WordDensityDemo\\WordDensityTheme\\": [
-                "src/theme/"
+                "src/theme/",
+                "src/theme/theme-resources/"
             ]
         }
     }
