@@ -18,7 +18,9 @@
                 "src/application/",
                 "src/application/ajax-endpoints/add-new-url",
                 "src/application/ajax-endpoints/get-urls",
+                "src/application/ajax-endpoints/run-word-density-test",
                 "src/application/model/url-system",
+                "src/application/model/word-density-testing",
                 "src/application/pages/density-testing/",
                 "src/application/pages/lorem-ipsum/"
             ],
