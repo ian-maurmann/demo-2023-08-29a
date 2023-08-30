@@ -15,6 +15,9 @@ WordDensityWidget.construct = function(){
 
     // Listen for events
     self.listen();
+
+    // Reload the URL list
+    self.reloadUrlList();
 }
 
 
@@ -105,8 +108,55 @@ WordDensityWidget.isValidHttpUrl = function(given_url_string){
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
+// Reload URL List
+WordDensityWidget.reloadUrlList = function(){
+    let self     = WordDensityWidget;
+    let section  = $('[data-section="word-density-testing"]');
+    let url_list = section.find('#url-list').first();
+
+    let loading_html = '' +
+        '<div class="url-list-loading-container">' +
+            '<div class="url-list-loading-container-alpha">' +
+                '<div class="hoja" style="font-size:20pt;">Loading...</div>' +
+            '</div>' +
+        '</div>';
+
+    // Show loading screen
+    url_list.html(loading_html);
+
+    loader_alpha_layer = url_list.find('.url-list-loading-container-alpha').first();
+    loader_alpha_layer.animate({ opacity: 1.0},2000, function() {
+
+        // Make an ajax request
+        let jqxhr = $.post( "/ajax/get-urls", {}, function() {
+            // Do nothing for now
+        }).done(function(data) {
+            let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+            let is_message_success = message_status === 'success';
+            let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+            let is_action_success = action_status === 'success';
+
+            if (is_message_success && is_action_success) {
+                Swal.fire({
+                    heightAuto: false,
+                    html: 'Got URLs',
+                    icon: 'success',
+                });
+            }
+            else{
+                Swal.fire({
+                    heightAuto: false,
+                    html: 'Encountered a problem fetching URL list',
+                    icon: 'error',
+                });
+            }
+        });
+    });
+
+}
+
 
 // Run Construct on page load
-$( document ).ready(function() {
+$(document).ready(function() {
     WordDensityWidget.construct();
 });

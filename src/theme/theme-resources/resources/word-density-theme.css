@@ -61,4 +61,17 @@
         background-color: var(--ox-color-ant-blue-7);
     }
 
+    .url-list-loading-container{
+        display: block;
+        height: 14em;
+        position: relative;
+        background: #fff;
+        padding: 3em 0em;
+        border-radius: 9px;
+    }
+
+    .url-list-loading-container-alpha{
+        opacity: 0%;
+    }
+
 }
