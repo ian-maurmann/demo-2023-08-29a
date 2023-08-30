@@ -27,7 +27,7 @@ class LoremIpsumRoute extends PithRoute
     public string $view         = '[^route_folder]/lorem-ipsum.latte';
     public string $layout       = '\\WordDensityDemo\\WordDensityTheme\\MainLayoutRoute';
 
-    public string $page_title       = 'lorem-ipsum- ' . PITH_DEMO_PAGE_MAIN_TITLE;
+    public string $page_title       = 'Lorem Ipsum - ' . WORD_DENSITY_APP_MAIN_TITLE;
     public string $meta_keywords    = 'lorem-ipsum, demo, keyword, keywords';
     public string $meta_description = 'lorem-ipsum page description here.';
 }
