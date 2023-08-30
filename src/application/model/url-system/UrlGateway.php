@@ -21,7 +21,9 @@ namespace WordDensityDemo\WordDensityApplication;
 
 
 use Exception;
+use PDO;
 use Pith\Framework\PithDatabaseWrapper;
+use Pith\Framework\PithException;
 
 /**
  * Class UrlGateway
@@ -74,6 +76,39 @@ class UrlGateway
 
         // Return the inserted id
         return (int) $inserted_id;
+    }
+
+
+    /**
+     * @return array
+     * @throws PithException
+     */
+    public function getUrls(): array
+    {
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Query
+        $sql = '
+            SELECT
+                *
+            FROM 
+                urls
+            ';
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute();
+
+        // Get results
+        $rows          = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $did_find_rows = $rows && count($rows);
+        $results       = $did_find_rows ? $rows : [];
+
+        // Return results
+        return $results;
     }
 
 

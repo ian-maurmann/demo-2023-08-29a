@@ -40,7 +40,8 @@ class GetUrlsAjaxAction extends PithAction
 
         // Get URLs
         try {
-            //$urls = $this->url_service->getUrls();
+            $urls          = $this->url_service->getUrls();
+            $is_successful = is_array($urls);
         } catch (Exception $exception) {
             $problem = $exception->getMessage();
         }

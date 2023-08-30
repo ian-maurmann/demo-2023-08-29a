@@ -137,10 +137,8 @@ WordDensityWidget.reloadUrlList = function(){
             let is_action_success = action_status === 'success';
 
             if (is_message_success && is_action_success) {
-                Swal.fire({
-                    heightAuto: false,
-                    html: 'Got URLs',
-                    icon: 'success',
+                loader_alpha_layer.animate({ opacity: 0.0},2000, function() {
+                    // TODO
                 });
             }
             else{
