@@ -74,4 +74,13 @@
         opacity: 0%;
     }
 
+    .url-list-main-container{
+        display: block;
+        height: 14em;
+        position: relative;
+        background: #fff;
+        padding: 3em 0em;
+        border-radius: 9px;
+    }
+
 }

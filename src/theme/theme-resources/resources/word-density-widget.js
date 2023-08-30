@@ -135,10 +135,12 @@ WordDensityWidget.reloadUrlList = function(){
             let is_message_success = message_status === 'success';
             let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
             let is_action_success = action_status === 'success';
+            let endpoint_data = data.hasOwnProperty('data') ? data.data : {};
+            let url_results = endpoint_data.hasOwnProperty('urls') ? endpoint_data.urls : {};
 
             if (is_message_success && is_action_success) {
                 loader_alpha_layer.animate({ opacity: 0.0},2000, function() {
-                    // TODO
+                    self.populateUrlList(url_results);
                 });
             }
             else{
@@ -151,6 +153,34 @@ WordDensityWidget.reloadUrlList = function(){
         });
     });
 
+}
+
+
+// Populate the URL List
+WordDensityWidget.populateUrlList = function(url_results){
+    let self     = WordDensityWidget;
+    let section  = $('[data-section="word-density-testing"]');
+    let url_list = section.find('#url-list').first();
+
+    let url_list_html = '' +
+        '<div class="url-list-main-container">' +
+        '</div>';
+
+    // Update URL list with new container
+    url_list.html(url_list_html);
+
+    // Get the main container
+    let main_container = url_list.find('.url-list-main-container').first();
+
+    $.each(url_results, function( result_index, result ) {
+
+        let url_listing_html = '' +
+            '<div>' +
+                '<span>' + result.url + '</span>' +
+            '</div>';
+
+        main_container.append(url_listing_html);
+    });
 }
 
 
