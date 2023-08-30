@@ -2,7 +2,7 @@
 
 /**
  * Migration to add urls table
- * ----------------------------------
+ * ---------------------------
  *
  * @noinspection PhpClassNamingConventionInspection   - Long class name is ok.
  * @noinspection PhpMissingParentCallCommonInspection - Parent method calls are not needed.
@@ -18,7 +18,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Migration
  */
 final class Version20230830014209 extends AbstractMigration
 {
