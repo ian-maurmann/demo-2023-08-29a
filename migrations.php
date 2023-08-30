@@ -11,7 +11,7 @@ return [
     ],
 
     'migrations_paths' => [
-        'Pith\\Framework\\Migration' => './data/migrations',
+        'WordDensityDemo\\Migration' => './data/migrations',
     ],
 
     'all_or_nothing' => true,
