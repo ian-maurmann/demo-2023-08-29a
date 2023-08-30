@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace WordDensityDemo\WordDensityApplication;
 
 
+use Exception;
 use Pith\Framework\PithDatabaseWrapper;
 
 /**
@@ -37,7 +38,43 @@ class UrlGateway
     }
 
 
+    /**
+     * @param string $url
+     * @return int
+     * @throws Exception
+     */
+    public function addNewUrl(string $url): int
+    {
+        // Query
+        $sql = '
+            INSERT INTO `urls` 
+                (url) 
+            VALUES 
+                (:url) 
+            ';
 
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute(
+            [
+                ':url' => $url,
+            ]
+        );
+
+        // Get inserted id
+        $inserted_id = $this->database->pdo->lastInsertId() ?: 0;
+        if($inserted_id === 0){
+            throw new Exception('Failed to insert to the URL table.');
+        }
+
+        // Return the inserted id
+        return (int) $inserted_id;
+    }
 
 
 }

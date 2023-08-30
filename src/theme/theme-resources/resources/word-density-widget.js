@@ -68,7 +68,7 @@ WordDensityWidget.handleOnClickAddNewUrlButton = function(element, event){
                 let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
                 let is_action_success = action_status === 'success';
 
-                if (is_message_success) {
+                if (is_message_success && is_action_success) {
                     Swal.fire({
                         heightAuto: false,
                         html: 'Added new URL',

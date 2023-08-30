@@ -20,6 +20,8 @@ declare(strict_types=1);
 namespace WordDensityDemo\WordDensityApplication;
 
 
+use Exception;
+
 /**
  * Class UrlService
  * @package WordDensityDemo\WordDensityApplication
@@ -34,9 +36,18 @@ class UrlService
         $this->url_gateway = $url_gateway;
     }
 
-    public function addNewUrl($new_url_unsafe)
+    /**
+     * @param string $url
+     * @return int
+     * @throws Exception
+     */
+    public function addNewUrl(string $url): int
     {
-        return false;
+        // Add new url
+        $url_id = $this->url_gateway->addNewUrl($url);
+
+        // Return the new url id
+        return $url_id;
     }
 
     /**

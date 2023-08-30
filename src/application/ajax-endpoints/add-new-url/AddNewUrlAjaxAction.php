@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace WordDensityDemo\WordDensityApplication;
 
+use Exception;
 use Pith\Framework\PithAction;
 
 /**
@@ -38,20 +39,29 @@ class AddNewUrlAjaxAction extends PithAction
         // Set vars
         $did_add_new_url = false;
         $is_successful   = false;
+        $problem         = '';
         $is_url_valid    = $this->url_service->isUrlValid($new_url_unsafe);
 
         // Add URL
-        if($is_url_valid){
-            $did_add_new_url = $this->url_service->addNewUrl($new_url_unsafe);
-            $is_successful   = $did_add_new_url;
+        try {
+            if($is_url_valid){
+                $did_add_new_url = $this->url_service->addNewUrl($new_url_unsafe);
+                $is_successful   = $did_add_new_url;
+            }
+            else{
+                $problem = 'Url must be a valid url';
+            }
+        } catch (Exception $exception) {
+            $problem = $exception->getMessage();
         }
-        
+
         // Build the response
         $response = [
             'message_status' => 'success',
             'action_status'  => $is_successful ? 'success' : 'failure',
             'data'           => [
                 'did_add_new_url' => $did_add_new_url ? 'yes' : 'no',
+                'problem'         => $problem,
             ],
         ];
 
