@@ -26,8 +26,9 @@ WordDensityWidget.listen = function(){
     let self = WordDensityWidget;
 
     // Click Events
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',          'click', self.handleOnClickAddNewUrlButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',           'click', self.handleOnClickAddNewUrlButton);
     Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]', 'click', self.handleOnToggleUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',          'click', self.handleOnClickRunTestButton);
 }
 
 
@@ -186,7 +187,15 @@ WordDensityWidget.populateUrlList = function(url_results){
                     '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
                 '</div>' +
                 '<div class="url-listing-tray">' +
-                    '<span>' + result.url + ' was added on ' + result.datetime_added + '</span>' +
+                    '<div>' +
+                        '<span>' + result.url + ' was added on ' + result.datetime_added + '</span>' +
+                    '</div>' +
+                    '<div class="url-test-list">' +
+                        '<span>(Checking for any previous density tests already run...)</span>' +
+                    '</div>' +
+                    '<div>' +
+                        '<div data-section-item-type="small-button-div" class="aero-gel aero-gel-blurred" tabindex="0" data-click-event="word-density-ui >>> run-test">Run Test</div>' +
+                    '</div>' +
                 '</div>' +
             '</div>';
 
@@ -211,6 +220,15 @@ WordDensityWidget.handleOnToggleUrlListing = function(element, event){
         listing.attr('data-is-opened', 'yes');
     }
 
+}
+
+// Handle On Click "Run Test" Button
+WordDensityWidget.handleOnClickRunTestButton = function(element, event){
+    let self    = WordDensityWidget;
+    let button  = $(element);
+    let listing = button.parent().closest('.url-listing');
+
+    alert('click');
 }
 
 
