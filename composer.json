@@ -16,6 +16,7 @@
             "WordDensityDemo\\WordDensityApplication\\": [
                 "src/application/",
                 "src/application/ajax-endpoints/add-new-url",
+                "src/application/model/url-system",
                 "src/application/pages/density-testing/",
                 "src/application/pages/lorem-ipsum/"
             ],
