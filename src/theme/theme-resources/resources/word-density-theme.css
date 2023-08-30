@@ -4,5 +4,7 @@
 
 /*noinspection CssRedundantUnit */
 @media all {
-    /* TODO */
+    html, body{
+        background-color: var(--ox-color-ibm1-cool-gray-20);
+    }
 }
