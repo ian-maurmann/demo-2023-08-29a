@@ -21,6 +21,9 @@
                 "src/theme/",
                 "src/theme/main-layout",
                 "src/theme/theme-resources/"
+            ],
+            "WordDensityDemo\\Migration\\": [
+                "data/migrations"
             ]
         }
     }
