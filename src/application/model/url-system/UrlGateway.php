@@ -1,7 +1,7 @@
 <?php
 
 /**
- * URL Service
+ * URL Gateway
  * -----------
  *
  * @noinspection PhpPropertyNamingConventionInspection      - Long property names are ok.
@@ -20,42 +20,24 @@ declare(strict_types=1);
 namespace WordDensityDemo\WordDensityApplication;
 
 
+use Pith\Framework\PithDatabaseWrapper;
+
 /**
- * Class UrlService
+ * Class UrlGateway
  * @package WordDensityDemo\WordDensityApplication
  */
-class UrlService
+class UrlGateway
 {
-    private UrlGateway $url_gateway;
+    private PithDatabaseWrapper $database;
 
-    public function __construct(UrlGateway $url_gateway)
+    public function __construct(PithDatabaseWrapper $database)
     {
         // Set object dependencies:
-        $this->url_gateway = $url_gateway;
+        $this->database = $database;
     }
 
-    public function addNewUrl($new_url_unsafe)
-    {
-        return false;
-    }
 
-    /**
-     * @param string $given_url
-     * @return bool
-     */
-    public function isUrlValid(string $given_url): bool
-    {
-        // Default to false
-        $is_url_valid = false;
 
-        // Check if URL is valid
-        if (filter_var($given_url, FILTER_VALIDATE_URL) !== false) {
-            $is_url_valid = true;
-        }
-
-        // Return true if the URL is valid, else return false
-        return $is_url_valid;
-    }
 
 
 }
