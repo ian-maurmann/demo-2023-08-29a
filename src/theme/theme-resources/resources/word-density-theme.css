@@ -37,4 +37,28 @@
         text-align: center;
         margin: 1em;
     }
+
+    [data-section="word-density-testing"] [data-section-item-type="button-div"]{
+        display: inline-block;
+        margin-top: 1.5rem;
+        margin-bottom: 2rem;
+
+        background-color: var(--ox-color-ant-blue-8);
+        color: #ffffff;
+
+        border-radius: 9px;
+        padding: 0.7em 3em;
+        width: 8rem;
+
+        cursor: pointer;
+        user-select: none;
+        transition-property: all;
+        transition-duration: 0.4s;
+
+        text-align: center;
+    }
+    [data-section="word-density-testing"] [data-section-item-type="button-div"]:hover{
+        background-color: var(--ox-color-ant-blue-7);
+    }
+
 }
