@@ -6,6 +6,7 @@
         }
     ],
     "require": {
+        "ext-pdo": "*",
         "pith/framework": "^0.30.0"
     },
     "autoload": {
