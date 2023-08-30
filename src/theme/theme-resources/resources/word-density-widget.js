@@ -25,8 +25,9 @@ WordDensityWidget.construct = function(){
 WordDensityWidget.listen = function(){
     let self = WordDensityWidget;
 
-    // Events on button click
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]', 'click', self.handleOnClickAddNewUrlButton);
+    // Click Events
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',          'click', self.handleOnClickAddNewUrlButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> open-url-listing"]', 'click', self.handleOnOpenUrlListing);
 }
 
 
@@ -180,12 +181,21 @@ WordDensityWidget.populateUrlList = function(url_results){
     $.each(url_results, function( result_index, result ) {
 
         let url_listing_html = '' +
-            '<div>' +
-                '<span>' + result.url + '</span>' +
+            '<div class="url-listing-row" data-click-event="word-density-ui >>> open-url-listing">' +
+                '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
             '</div>';
 
         main_container.append(url_listing_html);
     });
+}
+
+
+
+// Handle Open Url Listing
+WordDensityWidget.handleOnOpenUrlListing = function(element, event){
+    let self = WordDensityWidget;
+
+    alert('handleOnOpenUrlListing');
 }
 
 
