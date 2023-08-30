@@ -9,7 +9,8 @@
     }
 
     body{
-        background-color: var(--ox-color-ibm1-cool-gray-40);
+        background-color: var(--ox-color-tw-neutral-300);
+        color: #000000;
 
         overflow: auto;
 
@@ -29,6 +30,11 @@
     }
 
     #content{
-        margin: 1em 2em 3em 2em;
+        margin: 1em 4em 3em 4em;
+    }
+
+    #footer {
+        text-align: center;
+        margin: 1em;
     }
 }
