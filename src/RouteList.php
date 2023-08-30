@@ -29,6 +29,7 @@ class RouteList extends PithRouteList
         ['route',       ['GET', 'POST'], SHARED_UI_USER_PERFORM_LOGOUT_LINK,                 '\\Pith\\Framework\\SharedInfrastructure\\Pages\\SharedUiPages\\PerformUserLogoutRoute'],
         ['route',       ['GET', 'POST'], '/',                                                '\\WordDensityDemo\\WordDensityApplication\\DensityTestingRoute'],
         ['route',       ['GET', 'POST'], '/ajax/add-new-url',                                '\\WordDensityDemo\\WordDensityApplication\\AddNewUrlAjaxRoute'],
+        ['route',       ['GET', 'POST'], '/ajax/get-urls',                                   '\\WordDensityDemo\\WordDensityApplication\\GetUrlsAjaxRoute'],
         ['route',       ['GET', 'POST'], '/default-landing',                                 '\\Pith\\Framework\\SharedInfrastructure\\DefaultLandingRoute'],
         ['route',       ['GET', 'POST'], '/error-403',                                       '\\Pith\\Framework\\SharedInfrastructure\\Error403Route'],
         ['route',       ['GET', 'POST'], '/error-404',                                       '\\Pith\\Framework\\SharedInfrastructure\\Error404Route'],

@@ -21,6 +21,7 @@ namespace WordDensityDemo\WordDensityApplication;
 
 
 use Exception;
+use Pith\Framework\PithException;
 
 /**
  * Class UrlService
@@ -66,6 +67,18 @@ class UrlService
 
         // Return true if the URL is valid, else return false
         return $is_url_valid;
+    }
+
+    /**
+     * @throws PithException
+     */
+    public function getUrls(): array
+    {
+        // Get array of URL results
+        $urls = $this->url_gateway->getUrls();
+
+        // Return array of URL results
+        return $urls;
     }
 
 
