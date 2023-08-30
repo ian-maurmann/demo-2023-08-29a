@@ -4,7 +4,31 @@
 
 /*noinspection CssRedundantUnit */
 @media all {
-    html, body{
-        background-color: var(--ox-color-ibm1-cool-gray-20);
+    html{
+        background-color: var(--ox-color-ibm1-cool-gray-90);
+    }
+
+    body{
+        background-color: var(--ox-color-ibm1-cool-gray-40);
+
+        overflow: auto;
+
+        font-family:'IBM Plex Sans',Frutiger,'Segoe UI','Frutiger Linotype','Dejavu Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    }
+
+    #banner{
+        background: linear-gradient(to right, var(--ox-color-tw-sky-900), var(--ox-color-tw-sky-700), var(--ox-color-tw-sky-700), var(--ox-color-tw-sky-900));
+        padding: 2em;
+    }
+
+    #banner-main-text{
+        color: var(--ox-color-ibm1-warm-white-1);
+        font-size: 36pt;
+        font-weight: bold;
+        text-shadow: 0px 3px 4px rgba(210,210,210,0.4), 0px -3px 4px rgba(40,40,40,0.4);
+    }
+
+    #content{
+        margin: 1em 2em 3em 2em;
     }
 }
