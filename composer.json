@@ -22,6 +22,7 @@
             ],
             "WordDensityDemo\\WordDensityTheme\\": [
                 "src/theme/",
+                "src/theme/favicons",
                 "src/theme/main-layout",
                 "src/theme/theme-resources/"
             ],
