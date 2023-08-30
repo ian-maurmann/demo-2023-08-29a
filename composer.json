@@ -1,5 +1,30 @@
 {
+    "authors": [
+        {
+            "name": "Ian Maurmann",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "pith/framework": "^0.30.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WordDensityDemo\\": [
+                "src/"
+            ],
+            "WordDensityDemo\\WordDensityApplication\\": [
+                "src/application/",
+                "src/application/lorem-ipsum/"
+            ],
+            "WordDensityDemo\\WordDensityTheme\\": [
+                "src/theme/",
+                "src/theme/main-layout",
+                "src/theme/theme-resources/"
+            ],
+            "WordDensityDemo\\Migration\\": [
+                "data/migrations"
+            ]
+        }
     }
 }

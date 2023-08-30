@@ -1,0 +1,10 @@
+/* Word Density Theme stylesheet */
+/* ============================= */
+
+
+/*noinspection CssRedundantUnit */
+@media all {
+    html, body{
+        background-color: var(--ox-color-ibm1-cool-gray-20);
+    }
+}

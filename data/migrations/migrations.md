@@ -1,0 +1,1 @@
+Doctrine database migrations will go in this folder.
