@@ -132,7 +132,7 @@ WordDensityWidget.reloadUrlList = function(){
     url_list.html(loading_html);
 
     loader_alpha_layer = url_list.find('.url-list-loading-container-alpha').first();
-    loader_alpha_layer.animate({ opacity: 1.0},2000, function() {
+    loader_alpha_layer.animate({ opacity: 1.0},1000, function() {
 
         // Make an ajax request
         let jqxhr = $.post( "/ajax/get-urls", {}, function() {
@@ -146,7 +146,7 @@ WordDensityWidget.reloadUrlList = function(){
             let url_results = endpoint_data.hasOwnProperty('urls') ? endpoint_data.urls : {};
 
             if (is_message_success && is_action_success) {
-                loader_alpha_layer.animate({ opacity: 0.0},2000, function() {
+                loader_alpha_layer.animate({ opacity: 0.0},1000, function() {
                     self.populateUrlList(url_results);
                 });
             }
@@ -182,7 +182,7 @@ WordDensityWidget.populateUrlList = function(url_results){
     $.each(url_results, function( result_index, result ) {
 
         let url_listing_html = '' +
-            '<div class="url-listing" data-is-opened="no">' +
+            '<div class="url-listing" data-is-opened="no" data-url-id="' + result.url_id + '" data-url="' + result.url + '">' +
                 '<div class="url-listing-row" data-click-event="word-density-ui >>> click-url-listing">' +
                     '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
                 '</div>' +
@@ -227,8 +227,19 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
     let self    = WordDensityWidget;
     let button  = $(element);
     let listing = button.parent().closest('.url-listing');
+    let url_id  = listing.attr('data-url-id');
+    let url     = listing.attr('data-url');
 
-    alert('click');
+    Swal.fire({
+        heightAuto: false,
+        html:  'Run word-density test for URL "' + url + '"?',
+        icon: '',
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            alert('ok');
+        }
+    });
 }
 
 
