@@ -44,13 +44,43 @@ class DensityTestService
      */
     public function runWordDensityTest(int $url_id, string $url): array
     {
-        $test_id = $this->density_test_gateway->insertNewDensityTest($url_id);
+        $test_id     = $this->density_test_gateway->insertNewDensityTest($url_id);
+        $url_content = $this->fetchUrlContent($url);
 
         $density_test_info = [
             'density_test_id' => $test_id,
+            'url_content'     => $url_content,
         ];
 
         return $density_test_info;
+    }
+
+    /**
+     * @param string $url
+     * @param string $useragent
+     * @return bool|string
+     */
+    public function fetchUrlContent(string $url, string $useragent='cURL'): bool|string
+    {
+        $curl_handle = curl_init();
+
+        // Set options
+        curl_setopt($curl_handle, CURLOPT_URL, $url); // URL
+        // curl_setopt($curl_handle, CURLOPT_BINARYTRANSFER, true); // Used to need this
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true); // To get the contents of the URL
+        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, true); // New session
+        curl_setopt($curl_handle, CURLOPT_FAILONERROR, true); // Fail on error
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, $useragent); // User Agent String
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false); // Ignore SSL errors
+
+        // Execute
+        $response = curl_exec($curl_handle);
+        $worked   = curl_errno($curl_handle) === 0;
+
+        // Close
+        curl_close($curl_handle);
+
+        return $worked ? $response : false;
     }
 
 }

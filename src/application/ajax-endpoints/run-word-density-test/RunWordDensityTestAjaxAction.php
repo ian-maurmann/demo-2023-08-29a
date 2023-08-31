@@ -48,8 +48,9 @@ class RunWordDensityTestAjaxAction extends PithAction
             $is_url_valid    = $this->url_service->isUrlValid($url_unsafe);
             if($is_url_valid){
                 $density_test_info = $this->density_test_service->runWordDensityTest((int) $url_id_unsafe, $url_unsafe);
-                $test_id = $density_test_info['density_test_id'];
-                $is_successful = $test_id > 0;
+                $test_id           = $density_test_info['density_test_id'];
+                $url_content       = $density_test_info['url_content'];
+                $is_successful     = $test_id > 0;
             }
             else{
                 $problem = 'Url must be a valid url';
@@ -63,7 +64,9 @@ class RunWordDensityTestAjaxAction extends PithAction
             'message_status' => 'success',
             'action_status'  => $is_successful ? 'success' : 'failure',
             'data'           => [
-                'problem' => $problem,
+                'problem'     => $problem,
+                'test_id'     => $test_id ?? 0,
+                'url_content' => $url_content ?? '',
             ],
         ];
 
