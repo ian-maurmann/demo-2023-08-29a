@@ -37,5 +37,22 @@ class WordService
         $this->word_gateway = $word_gateway;
     }
 
+    public function saveTopUrlWords(int $url_id, string $url, int $test_id, int $url_word_count, array $url_word_occurrences)
+    {
+        // Loop through the words
+        $word_rank = 0;
+        foreach ($url_word_occurrences as $word => $occurrences){
+            // Increment the word's place in the ranking, we're starting at the highest, stopping a bit after 20.
+            $word_rank++;
+
+            // Once we've hit the low-rank words, stop looping
+            if($word_rank > 30){
+                break;
+            }
+
+            // Add word to the words table if it's not already there
+        }
+    }
+
 
 }
