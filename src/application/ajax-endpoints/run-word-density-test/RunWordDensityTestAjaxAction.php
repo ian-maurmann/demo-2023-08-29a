@@ -24,11 +24,13 @@ use Pith\Framework\PithAction;
  */
 class RunWordDensityTestAjaxAction extends PithAction
 {
+    private DensityTestService $density_test_service;
     private UrlService $url_service;
 
-    public function __construct(UrlService $url_service){
+    public function __construct(DensityTestService $density_test_service, UrlService $url_service){
         // Set object dependencies
-        $this->url_service = $url_service;
+        $this->density_test_service = $density_test_service;
+        $this->url_service          = $url_service;
     }
 
     public function runAction()
@@ -45,8 +47,9 @@ class RunWordDensityTestAjaxAction extends PithAction
         try {
             $is_url_valid    = $this->url_service->isUrlValid($url_unsafe);
             if($is_url_valid){
-                // $test_id = //TODO
-                // $is_successful = $test_id > 0;
+                $density_test_info = $this->density_test_service->runWordDensityTest((int) $url_id_unsafe, $url_unsafe);
+                $test_id = $density_test_info['density_test_id'];
+                $is_successful = $test_id > 0;
             }
             else{
                 $problem = 'Url must be a valid url';

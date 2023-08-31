@@ -39,4 +39,18 @@ class DensityTestService
         $this->url_gateway          = $url_gateway;
     }
 
+    /**
+     * @throws PithException
+     */
+    public function runWordDensityTest(int $url_id, string $url): array
+    {
+        $test_id = $this->density_test_gateway->insertNewDensityTest($url_id);
+
+        $density_test_info = [
+            'density_test_id' => $test_id,
+        ];
+
+        return $density_test_info;
+    }
+
 }

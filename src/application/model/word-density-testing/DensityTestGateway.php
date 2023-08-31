@@ -39,5 +39,44 @@ class DensityTestGateway
         $this->database = $database;
     }
 
+    /**
+     * @param  int $url_id
+     * @return int
+     * @throws PithException
+     * @throws Exception
+     */
+    public function insertNewDensityTest(int $url_id): int
+    {
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Query
+        $sql = '
+            INSERT INTO `density_tests` 
+                (url_id) 
+            VALUES 
+                (:url_id) 
+            ';
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute(
+            [
+                ':url_id' => $url_id,
+            ]
+        );
+
+        // Get inserted id
+        $inserted_id = $this->database->pdo->lastInsertId() ?: 0;
+        if($inserted_id === 0){
+            throw new Exception('Failed to insert to the URL table.');
+        }
+
+        // Return the inserted id
+        return (int) $inserted_id;
+    }
+
 
 }

@@ -237,7 +237,41 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
         showCancelButton: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            alert('ok');
+
+            let fields = {
+                url_id : url_id,
+                url    : url
+            }
+
+            // Make an ajax request
+            let jqxhr = $.post( "/ajax/run-word-density-test", fields, function() {
+                // Do nothing for now
+            }).done(function(data) {
+                let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+                let is_message_success = message_status === 'success';
+                let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+                let is_action_success = action_status === 'success';
+
+                if (is_message_success && is_action_success) {
+                    // Show success message
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Ran the word-density test',
+                        icon: 'success',
+                    }).then((result) => {
+                        // Refresh the list of tests for the current url here? // TODO
+                    });
+                }
+                else{
+                    // Show failure popup
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Encountered while running the word-density test',
+                        icon: 'error',
+                    });
+                }
+            });
+
         }
     });
 }
