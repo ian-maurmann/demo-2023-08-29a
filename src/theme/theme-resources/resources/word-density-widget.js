@@ -271,7 +271,7 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
                     // Show failure popup
                     Swal.fire({
                         heightAuto: false,
-                        html: 'Encountered while running the word-density test',
+                        html: 'Encountered a problem while running the word-density test',
                         icon: 'error',
                     });
                 }
@@ -285,8 +285,29 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
 WordDensityWidget.loadTestsForUrlListing = function(listing){
     let self      = WordDensityWidget;
     let test_list = listing.find('.url-test-list').first();
+    let url_id    = listing.attr('data-url-id');
 
-    alert('Boo');
+    let fields = {
+        url_id : url_id
+    }
+
+    // Make an ajax request
+    let jqxhr = $.post( "/ajax/get-url-tests", fields, function() {
+        // Do nothing for now
+    }).done(function(data) {
+        let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+        let is_message_success = message_status === 'success';
+        let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+        let is_action_success = action_status === 'success';
+
+        if (is_message_success && is_action_success) {
+            test_list.html('(Loaded!)');
+        }
+        else{
+            // Show failure message
+            test_list.html('(Encountered a problem while loading tests)');
+        }
+    });
 }
 
 // Run Construct on page load
