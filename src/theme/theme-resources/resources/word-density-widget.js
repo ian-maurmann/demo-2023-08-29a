@@ -223,7 +223,7 @@ WordDensityWidget.handleOnToggleUrlListing = function(element, event){
 
     // Load tests
     if(!are_test_loaded){
-        self.loadTestsForUrlListing(listing);
+        self.reloadTestsForUrlListing(listing);
     }
 }
 
@@ -264,7 +264,8 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
                         html: 'Ran the word-density test',
                         icon: 'success',
                     }).then((result) => {
-                        // Refresh the list of tests for the current url here? // TODO
+                        // Refresh the list of tests for the current url
+                        self.reloadTestsForUrlListing(listing);
                     });
                 }
                 else{
@@ -281,8 +282,8 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
     });
 }
 
-// Load Tests For URL Listing
-WordDensityWidget.loadTestsForUrlListing = function(listing){
+// Reload Tests For URL Listing
+WordDensityWidget.reloadTestsForUrlListing = function(listing){
     let self      = WordDensityWidget;
     let test_list = listing.find('.url-test-list').first();
     let url_id    = listing.attr('data-url-id');
