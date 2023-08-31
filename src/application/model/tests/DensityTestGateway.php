@@ -118,5 +118,59 @@ class DensityTestGateway
         return $results;
     }
 
+    /**
+     * @param int $test_id
+     * @return array
+     * @throws PithException
+     */
+    public function getTestWordsForTest(int $test_id): array
+    {
+        // Default to an empty array
+        $results = [];
+
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Query
+        $sql = '
+            SELECT
+                tw.density_test_word_id,
+                tw.density_test_id,
+                tw.word_id,
+                w.word,
+                tw.word_count,
+                tw.word_density,
+                w.is_common_syntax_word
+            FROM 
+                density_test_words AS tw
+            LEFT JOIN
+                words AS w 
+                ON tw.word_id = w.word_id
+            WHERE
+                tw.density_test_id = :density_test_id
+            ORDER BY
+                w.is_common_syntax_word ASC,
+                tw.word_density DESC 
+            ';
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute(
+            [
+                ':density_test_id' => $test_id,
+            ]
+        );
+
+        // Get results
+        $rows          = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $did_find_rows = $rows && count($rows);
+        $results       = $did_find_rows ? $rows : [];
+
+        // Return results
+        return $results;
+    }
+
 
 }

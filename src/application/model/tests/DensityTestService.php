@@ -43,6 +43,9 @@ class DensityTestService
     }
 
     /**
+     * @param int $url_id
+     * @param string $url
+     * @return array
      * @throws PithException
      */
     public function runWordDensityTest(int $url_id, string $url): array
@@ -122,6 +125,8 @@ class DensityTestService
     }
 
     /**
+     * @param int $url_id
+     * @return array
      * @throws PithException
      */
     public function getTestsForUrl(int $url_id): array
@@ -131,6 +136,20 @@ class DensityTestService
 
         // Return array
         return $tests;
+    }
+
+    /**
+     * @param int $test_id
+     * @return array
+     * @throws PithException
+     */
+    public function getTestWordsForTest(int $test_id): array
+    {
+        // Get row-set array of URL test words
+        $test_words = $this->density_test_gateway->getTestWordsForTest($test_id);
+
+        // Return rows as array
+        return $test_words;
     }
 
 }

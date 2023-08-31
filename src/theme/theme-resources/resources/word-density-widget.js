@@ -26,9 +26,10 @@ WordDensityWidget.listen = function(){
     let self = WordDensityWidget;
 
     // Click Events
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',           'click', self.handleOnClickAddNewUrlButton);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]', 'click', self.handleOnToggleUrlListing);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',          'click', self.handleOnClickRunTestButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',                'click', self.handleOnClickAddNewUrlButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]',      'click', self.handleOnToggleUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',               'click', self.handleOnClickRunTestButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-test-listing"]', 'click', self.handleOnToggleUrlTestListing);
 }
 
 
@@ -227,6 +228,7 @@ WordDensityWidget.handleOnToggleUrlListing = function(element, event){
     }
 }
 
+
 // Handle On Click "Run Test" Button
 WordDensityWidget.handleOnClickRunTestButton = function(element, event){
     let self    = WordDensityWidget;
@@ -337,8 +339,15 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
         }
 
         let url_listing_test_list_html = '' +
-            '<div class="url-test">' +
-                '<span> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</span>' +
+            '<div class="url-test" data-is-opened="no" data-did-already-load-test-words="no" data-test-id="' + test.density_test_id + '">' +
+                '<div class="url-test-heading-clickable" data-click-event="word-density-ui >>> click-url-test-listing"> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</div>' +
+                '<div class="url-test-tray">' +
+                    '<div> Test ID: #' + test.density_test_id + '</div>' +
+                    '<div> Test run on: ' + test.datetime_ran_test + '</div>' +
+                    '<div class="url-test-word-list">' +
+                        '<span>(Retrieving words that were saved during the test...)</span>' +
+                    '</div>' +
+                '</div>' +
             '</div>';
 
         test_list_div.append(url_listing_test_list_html);
@@ -347,6 +356,161 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
     });
     if(each_else){
         test_list_div.append('<i>No tests have been run yet. Run a test.</i>');
+    }
+}
+
+
+// Handle On Toggle Url Test Listing
+WordDensityWidget.handleOnToggleUrlTestListing = function(element, event){
+    let self                  = WordDensityWidget;
+    let current_element       = $(element);
+    let url_listing           = current_element.parent().closest('.url-listing');
+    let test_listing          = current_element.parent().closest('.url-test');
+    let is_open               = test_listing.attr('data-is-opened') === 'yes';
+    let are_test_words_loaded = test_listing.attr('data-did-already-load-test-words') === 'yes';
+
+    // Toggle
+    if(is_open){
+        test_listing.attr('data-is-opened', 'no');
+    }
+    else{
+        test_listing.attr('data-is-opened', 'yes');
+    }
+
+    // Load test words
+    if(!are_test_words_loaded){
+        self.reloadTestWordsForTestListing(url_listing, test_listing);
+    }
+}
+
+
+
+// Reload Tests For URL Listing
+WordDensityWidget.reloadTestWordsForTestListing = function(url_listing, test_listing){
+    let self           = WordDensityWidget;
+    let url_id         = url_listing.attr('data-url-id');
+    let test_word_list = test_listing.find('.url-test-word-list').first();
+    let test_id        = test_listing.attr('data-test-id');
+
+    let fields = {
+        test_id : test_id
+    }
+
+    // Make an ajax request
+    let jqxhr = $.post( "/ajax/get-url-test-words", fields, function() {
+        // Do nothing for now
+    }).done(function(data) {
+        let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+        let is_message_success = message_status === 'success';
+        let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+        let is_action_success = action_status === 'success';
+        let endpoint_data = data.hasOwnProperty('data') ? data.data : {};
+        let test_words = endpoint_data.hasOwnProperty('test_words') ? endpoint_data.test_words : {};
+
+        if (is_message_success && is_action_success) {
+            test_word_list.html('(Loaded!)');
+
+            // Populate the Test Word list
+            self.populateUrlTestWordList(url_listing, test_listing, test_word_list, test_words);
+
+            // Tell the URL listing that the test are already loaded
+            test_listing.attr('data-did-already-load-test-words', 'yes')
+        }
+        else{
+            // Show failure message
+            test_listing.html('(Encountered a problem while loading test words)');
+        }
+    });
+}
+
+// Populate the Test Word list
+WordDensityWidget.populateUrlTestWordList = function(url_listing, test_listing, test_word_list_div, test_words){
+    let self     = WordDensityWidget;
+    let section  = $('[data-section="word-density-testing"]');
+
+    // Clear the div
+    test_word_list_div.html('');
+
+    // Loop through the test words
+    let is_first  = true;
+    let each_else = true;
+    let iteration = 0;
+    $.each(test_words, function(test_word_row_index, test_word_row) {
+        each_else = false;
+        iteration ++;
+
+        // Break after 20
+        if(iteration > 20){
+            return false; // break loop
+        }
+
+        // First Loop only
+        if(is_first){
+            test_word_list_div.append('<b>Words:</b>');
+            test_word_list_div.append('<table class="url-test-words-table">');
+
+        }
+
+        let test_word_table = test_word_list_div.find('.url-test-words-table').first();
+
+        // Get word
+        let word_string = String(test_word_row.word);
+
+        // Get rank
+        let rank        = parseInt(test_word_row_index) + 1;
+        let rank_string = String(rank) + '.';
+
+        // Get density
+        let density_per_10k_as_int    = parseInt(test_word_row.word_density);
+        let density_percent_as_float  = density_per_10k_as_int / 100;
+        let density_percent_as_string = String(density_percent_as_float) + '%';
+
+        // Get occurrences / word_count
+        let word_count = parseInt(test_word_row.word_count);
+        let occurrences_string = '(Word appeared ' + String(word_count) + ' times)';
+
+        // Get grade
+        let grade = 'ok';
+        if(density_per_10k_as_int > 300){
+            grade = 'excellent';
+        }
+        else if(density_per_10k_as_int > 100){
+            grade = 'very-good';
+        }
+        else if(density_per_10k_as_int > 75){
+            grade = 'good';
+        }
+
+        // Get if word is over-common
+        let is_common_syntax_word = parseInt(test_word_row.is_common_syntax_word) > 0;
+        let commonality = is_common_syntax_word ? '(Too common for word-searching)' : '';
+
+        if(is_common_syntax_word){
+            // rank_string               = '(' + rank_string + ')';
+            word_string               = '(' + word_string + ')';
+            density_percent_as_string = '(' + density_percent_as_string + ')';
+        }
+
+
+        let tr = '' +
+            '<tr>' +
+                '<td>' + rank_string + '</td>' +
+                '<td>' + word_string + '</td>' +
+                '<td>' +
+                    '<span class="test-word-result-density" data-grade="' + grade + '">' + density_percent_as_string + '</span>' +
+                    ' ' +
+                    '<span class="test-word-result-occurrences">' + occurrences_string + '</span>' +
+                '</td>' +
+                '<td>' + commonality + '</td>' +
+            '</tr>';
+
+        test_word_table.append(tr);
+
+        is_first = false;
+    });
+    // Else
+    if(each_else){
+        test_word_list_div.append('<i>No words saved with test. Please run a new test.</i>');
     }
 }
 

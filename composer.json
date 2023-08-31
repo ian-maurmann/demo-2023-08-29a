@@ -19,6 +19,7 @@
             "WordDensityDemo\\WordDensityApplication\\": [
                 "src/application/",
                 "src/application/ajax-endpoints/add-new-url",
+                "src/application/ajax-endpoints/get-url-test-words",
                 "src/application/ajax-endpoints/get-url-tests",
                 "src/application/ajax-endpoints/get-urls",
                 "src/application/ajax-endpoints/run-word-density-test",
