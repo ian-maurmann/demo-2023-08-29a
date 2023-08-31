@@ -188,7 +188,7 @@ WordDensityWidget.populateUrlList = function(url_results){
                 '</div>' +
                 '<div class="url-listing-tray">' +
                     '<div>' +
-                        '<span>' + result.url + ' was added on ' + result.datetime_added + '</span>' +
+                        '<span>' + result.url + ' was added on <i class="fa-regular fa-calendar fa-lg"></i> ' + result.datetime_added + '</span>' +
                     '</div>' +
                     '<div class="url-test-list">' +
                         '<span>(Checking for any previous density tests already run...)</span>' +
