@@ -405,12 +405,13 @@ WordDensityWidget.reloadTestWordsForTestListing = function(url_listing, test_lis
         let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
         let is_action_success = action_status === 'success';
         let endpoint_data = data.hasOwnProperty('data') ? data.data : {};
-        let tests = endpoint_data.hasOwnProperty('tests') ? endpoint_data.tests : {};
+        let test_words = endpoint_data.hasOwnProperty('test_words') ? endpoint_data.test_words : {};
 
         if (is_message_success && is_action_success) {
             test_word_list.html('(Loaded!)');
 
-            //self.populateUrlTestList(listing, test_list, tests); TODO
+            // Populate the Test Word list
+            self.populateUrlTestWordList(url_listing, test_listing, test_word_list, test_words);
 
             // Tell the URL listing that the test are already loaded
             test_listing.attr('data-did-already-load-test-words', 'yes')
@@ -420,6 +421,38 @@ WordDensityWidget.reloadTestWordsForTestListing = function(url_listing, test_lis
             test_listing.html('(Encountered a problem while loading test words)');
         }
     });
+}
+
+// Populate the Test Word list
+WordDensityWidget.populateUrlTestWordList = function(url_listing, test_listing, test_word_list_div, test_words){
+    let self     = WordDensityWidget;
+    let section  = $('[data-section="word-density-testing"]');
+
+    // Clear the div
+    test_word_list_div.html('');
+
+    // Loop through the test words
+    let is_first  = true;
+    let each_else = true;
+    $.each(test_words, function(test_word_row_index, test_word_row) {
+        each_else = false;
+
+        if(is_first){
+            test_word_list_div.append('<b>Words:</b>');
+        }
+
+        let url_listing_test_word_list_html = '' +
+            '<div class="url-test-word">' +
+                '<span>' + test_word_row.word + '</span>' +
+            '</div>';
+
+        test_word_list_div.append(url_listing_test_word_list_html);
+
+        is_first = false;
+    });
+    if(each_else){
+        test_word_list_div.append('<i>No words saved with test. Please run a new test.</i>');
+    }
 }
 
 // Run Construct on page load
