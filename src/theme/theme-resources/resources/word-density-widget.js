@@ -302,6 +302,9 @@ WordDensityWidget.loadTestsForUrlListing = function(listing){
 
         if (is_message_success && is_action_success) {
             test_list.html('(Loaded!)');
+
+            // Tell the URL listing that the test are already loaded
+            listing.attr('data-did-already-load-tests', 'yes')
         }
         else{
             // Show failure message

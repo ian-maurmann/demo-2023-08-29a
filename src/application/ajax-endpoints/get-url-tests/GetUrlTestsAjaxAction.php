@@ -45,8 +45,8 @@ class GetUrlTestsAjaxAction extends PithAction
 
         // Get URLs
         try {
-            //$tests         = $this->density_test_service->getTestsForUrl($url_id_unsafe);
-            //$is_successful = is_array($urls);
+            $tests         = $this->density_test_service->getTestsForUrl((int) $url_id_unsafe);
+            $is_successful = is_array($tests);
         } catch (Exception $exception) {
             $problem = $exception->getMessage();
         }
