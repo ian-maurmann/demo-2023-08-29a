@@ -299,9 +299,13 @@ WordDensityWidget.loadTestsForUrlListing = function(listing){
         let is_message_success = message_status === 'success';
         let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
         let is_action_success = action_status === 'success';
+        let endpoint_data = data.hasOwnProperty('data') ? data.data : {};
+        let tests = endpoint_data.hasOwnProperty('tests') ? endpoint_data.tests : {};
 
         if (is_message_success && is_action_success) {
             test_list.html('(Loaded!)');
+
+            self.populateUrlTestList(listing, test_list, tests);
 
             // Tell the URL listing that the test are already loaded
             listing.attr('data-did-already-load-tests', 'yes')
@@ -311,6 +315,38 @@ WordDensityWidget.loadTestsForUrlListing = function(listing){
             test_list.html('(Encountered a problem while loading tests)');
         }
     });
+}
+
+// Populate the URL Test List
+WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
+    let self     = WordDensityWidget;
+    let section  = $('[data-section="word-density-testing"]');
+
+    // Clear the div
+    test_list_div.html('');
+
+    // Loop through the tests
+    let is_first  = true;
+    let each_else = true;
+    $.each(tests, function(test_index, test) {
+        each_else = false;
+
+        if(is_first){
+            test_list_div.append('<b>Word-Density Tests:</b>');
+        }
+
+        let url_listing_test_list_html = '' +
+            '<div class="url-test">' +
+                '<span> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</span>' +
+            '</div>';
+
+        test_list_div.append(url_listing_test_list_html);
+
+        is_first = false;
+    });
+    if(each_else){
+        test_list_div.append('<i>No tests have been run yet. Run a test.</i>');
+    }
 }
 
 // Run Construct on page load

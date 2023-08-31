@@ -56,7 +56,7 @@ class GetUrlTestsAjaxAction extends PithAction
             'message_status' => 'success',
             'action_status'  => $is_successful ? 'success' : 'failure',
             'data'           => [
-                '$tests'    => $tests,
+                'tests'   => $tests,
                 'problem' => $problem,
             ],
         ];
