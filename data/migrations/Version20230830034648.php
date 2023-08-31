@@ -32,7 +32,7 @@ final class Version20230830034648 extends AbstractMigration
         $this->addSql('
             CREATE TABLE `words` (
                 `word_id` INT AUTO_INCREMENT NOT NULL, 
-                `word` VARCHAR(191) NOT NULL,
+                `word` VARCHAR(191) UNIQUE NOT NULL,
                 `is_common_syntax_word` TINYINT(1) NOT NULL DEFAULT 0,
                 `datetime_added` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY(word_id)
