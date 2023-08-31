@@ -51,6 +51,7 @@ class RunWordDensityTestAjaxAction extends PithAction
                 $test_id           = $density_test_info['density_test_id'];
                 $url_content_html  = $density_test_info['url_content_html'];
                 $url_content_text  = $density_test_info['url_content_text'];
+                $url_words         = $density_test_info['url_words'];
                 $is_successful     = $test_id > 0;
             }
             else{
@@ -69,6 +70,7 @@ class RunWordDensityTestAjaxAction extends PithAction
                 'test_id'          => $test_id ?? 0,
                 'url_content_html' => $url_content_html ?? '',
                 'url_content_text' => $url_content_text ?? '',
+                'url_words'        => $url_words ?? '',
             ],
         ];
 

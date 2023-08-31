@@ -45,16 +45,36 @@ class DensityTestService
      */
     public function runWordDensityTest(int $url_id, string $url): array
     {
-        $test_id          = $this->density_test_gateway->insertNewDensityTest($url_id);
+        // Create new text
+        $test_id = $this->density_test_gateway->insertNewDensityTest($url_id);
+
+        // Get HTML from URL
         $url_content_html = $this->fetchUrlContent($url);
-        $html2text        = new Html2Text($url_content_html);
-        $url_content_text = $html2text->getText();
+
+        // Set options for Html2Text
+        $options = [
+            'do_links' => 'none',
+            'width'    => 0,
+        ];
+
+        // Use Html2Text to get text
+        $html2text = new Html2Text($url_content_html, $options);
+        $url_content_text_with_escapes = $html2text->getText();
+
+        // Cleanup text
+        $url_content_text = preg_replace("/[^A-Za-z ]/", ' ', $url_content_text_with_escapes);
+        $url_content_text_lower_case = mb_strtolower($url_content_text);
+        $url_content_text_less_whitespace = trim(preg_replace( '/\s+/', ' ', $url_content_text_lower_case ));
+
+        // Get words
+        $url_words = explode(' ', $url_content_text_less_whitespace);
 
         // Build array of test info
         $density_test_info = [
             'density_test_id'  => $test_id,
             'url_content_html' => $url_content_html,
             'url_content_text' => $url_content_text,
+            'url_words'        => $url_words,
         ];
 
         // Return test info
