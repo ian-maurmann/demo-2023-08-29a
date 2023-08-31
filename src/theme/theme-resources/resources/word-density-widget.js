@@ -26,8 +26,9 @@ WordDensityWidget.listen = function(){
     let self = WordDensityWidget;
 
     // Click Events
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',          'click', self.handleOnClickAddNewUrlButton);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> open-url-listing"]', 'click', self.handleOnOpenUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',           'click', self.handleOnClickAddNewUrlButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]', 'click', self.handleOnToggleUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',          'click', self.handleOnClickRunTestButton);
 }
 
 
@@ -131,7 +132,7 @@ WordDensityWidget.reloadUrlList = function(){
     url_list.html(loading_html);
 
     loader_alpha_layer = url_list.find('.url-list-loading-container-alpha').first();
-    loader_alpha_layer.animate({ opacity: 1.0},2000, function() {
+    loader_alpha_layer.animate({ opacity: 1.0},1000, function() {
 
         // Make an ajax request
         let jqxhr = $.post( "/ajax/get-urls", {}, function() {
@@ -145,7 +146,7 @@ WordDensityWidget.reloadUrlList = function(){
             let url_results = endpoint_data.hasOwnProperty('urls') ? endpoint_data.urls : {};
 
             if (is_message_success && is_action_success) {
-                loader_alpha_layer.animate({ opacity: 0.0},2000, function() {
+                loader_alpha_layer.animate({ opacity: 0.0},1000, function() {
                     self.populateUrlList(url_results);
                 });
             }
@@ -181,8 +182,21 @@ WordDensityWidget.populateUrlList = function(url_results){
     $.each(url_results, function( result_index, result ) {
 
         let url_listing_html = '' +
-            '<div class="url-listing-row" data-click-event="word-density-ui >>> open-url-listing">' +
-                '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
+            '<div class="url-listing" data-is-opened="no" data-url-id="' + result.url_id + '" data-url="' + result.url + '">' +
+                '<div class="url-listing-row" data-click-event="word-density-ui >>> click-url-listing">' +
+                    '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
+                '</div>' +
+                '<div class="url-listing-tray">' +
+                    '<div>' +
+                        '<span>' + result.url + ' was added on ' + result.datetime_added + '</span>' +
+                    '</div>' +
+                    '<div class="url-test-list">' +
+                        '<span>(Checking for any previous density tests already run...)</span>' +
+                    '</div>' +
+                    '<div>' +
+                        '<div data-section-item-type="small-button-div" class="aero-gel aero-gel-blurred" tabindex="0" data-click-event="word-density-ui >>> run-test">Run Test</div>' +
+                    '</div>' +
+                '</div>' +
             '</div>';
 
         main_container.append(url_listing_html);
@@ -191,11 +205,75 @@ WordDensityWidget.populateUrlList = function(url_results){
 
 
 
-// Handle Open Url Listing
-WordDensityWidget.handleOnOpenUrlListing = function(element, event){
-    let self = WordDensityWidget;
+// Handle On Toggle Url Listing
+WordDensityWidget.handleOnToggleUrlListing = function(element, event){
+    let self        = WordDensityWidget;
+    let listing_row = $(element);
+    let listing     = listing_row.parent().closest('.url-listing');
+    let is_open     = listing.attr('data-is-opened') === 'yes';
 
-    alert('handleOnOpenUrlListing');
+    // Toggle
+    if(is_open){
+        listing.attr('data-is-opened', 'no');
+    }
+    else{
+        listing.attr('data-is-opened', 'yes');
+    }
+
+}
+
+// Handle On Click "Run Test" Button
+WordDensityWidget.handleOnClickRunTestButton = function(element, event){
+    let self    = WordDensityWidget;
+    let button  = $(element);
+    let listing = button.parent().closest('.url-listing');
+    let url_id  = listing.attr('data-url-id');
+    let url     = listing.attr('data-url');
+
+    Swal.fire({
+        heightAuto: false,
+        html:  'Run word-density test for URL "' + url + '"?',
+        icon: '',
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            let fields = {
+                url_id : url_id,
+                url    : url
+            }
+
+            // Make an ajax request
+            let jqxhr = $.post( "/ajax/run-word-density-test", fields, function() {
+                // Do nothing for now
+            }).done(function(data) {
+                let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+                let is_message_success = message_status === 'success';
+                let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+                let is_action_success = action_status === 'success';
+
+                if (is_message_success && is_action_success) {
+                    // Show success message
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Ran the word-density test',
+                        icon: 'success',
+                    }).then((result) => {
+                        // Refresh the list of tests for the current url here? // TODO
+                    });
+                }
+                else{
+                    // Show failure popup
+                    Swal.fire({
+                        heightAuto: false,
+                        html: 'Encountered while running the word-density test',
+                        icon: 'error',
+                    });
+                }
+            });
+
+        }
+    });
 }
 
 
