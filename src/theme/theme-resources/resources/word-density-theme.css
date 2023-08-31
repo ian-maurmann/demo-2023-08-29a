@@ -153,7 +153,7 @@
 
     /* ========================================== */
 
-
+    /* Test Listing */
     .url-test-heading-clickable{
         color: var(--ox-color-tw-sky-700);
         font-weight: bold;
@@ -168,6 +168,7 @@
 
     /* ========================================== */
 
+    /* Test Tray */
     .url-test .url-test-tray{
         display: none;
         padding: 1ex 1em 1em 1em;
@@ -176,5 +177,12 @@
     }
     .url-test[data-is-opened="yes"] .url-test-tray{
         display: block;
+    }
+
+    /* ========================================== */
+
+    /* Word List */
+    .url-test-word-list{
+        margin-top: 1em;
     }
 }

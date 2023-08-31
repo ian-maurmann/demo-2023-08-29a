@@ -344,6 +344,9 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
                 '<div class="url-test-tray">' +
                     '<div> Test ID: #' + test.density_test_id + '</div>' +
                     '<div> Test run on: ' + test.datetime_ran_test + '</div>' +
+                    '<div class="url-test-word-list">' +
+                        '<span>(Retrieving words that were saved during the test...)</span>' +
+                    '</div>' +
                 '</div>' +
             '</div>';
 
