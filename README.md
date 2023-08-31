@@ -46,6 +46,13 @@ php composer.phar install
 php composer.phar update
 ```
 
+- Check that everything was installed correctly. Reveiw the list of installed packages with Composer Show:
+```bash
+php composer.phar show
+```
+![composer.phar show](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/composer-show.png?raw=true)
+
+
 Also for further reference, here's the composer-cheat-sheet by u/nicwortel
 https://cheat-sheets.nicwortel.nl/composer-cheat-sheet.pdf
 
@@ -84,3 +91,11 @@ php mig migrations:migrate
 ```bash
 php mig migrations:list
 ```
+
+![mig migrations:list](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/mig-migrations-list.png?raw=true)
+
+- The database tables should all exist now.
+
+![Sequel Pro table list](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/sequel-pro-table-list.png?raw=true)
+
+
