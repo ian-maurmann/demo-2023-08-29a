@@ -338,7 +338,7 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
 
         let url_listing_test_list_html = '' +
             '<div class="url-test">' +
-                '<span> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</span>' +
+                '<div class="url-test-heading-clickable"> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</div>' +
             '</div>';
 
         test_list_div.append(url_listing_test_list_html);
