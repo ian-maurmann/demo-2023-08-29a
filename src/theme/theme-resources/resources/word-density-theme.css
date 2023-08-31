@@ -110,9 +110,22 @@
     .url-listing:nth-child(even) .url-listing-row {
         background: var(--ox-color-tw-neutral-100);
     }
+    /*
     .url-listing .url-listing-row:hover,
     .url-listing:nth-child(odd) .url-listing-row:hover,
     .url-listing:nth-child(even) .url-listing-row:hover,
+    .url-listing[data-is-opened="yes"] .url-listing-row{
+        background: var(--ox-color-ant-gold-3);
+    }
+    */
+    /*
+    .url-listing:nth-child(odd) .url-listing-row:hover{
+        background: var(--ox-color-tw-neutral-200);
+    }
+    .url-listing:nth-child(even) .url-listing-row:hover{
+        background: var(--ox-color-tw-neutral-50);
+    }
+    */
     .url-listing[data-is-opened="yes"] .url-listing-row{
         background: var(--ox-color-ant-gold-3);
     }
