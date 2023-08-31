@@ -2,8 +2,21 @@
 Demo
 
 ---
+# Overview
 
-# Installation
+The word density helper opens with a list of given URLs:
+![Screenshot 1](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/screenshot-1.png?raw=true)
+
+New URLs can be added with the "Add New URL" button:
+![Screenshot 2](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/screenshot-2.png?raw=true)
+
+Clicking on the URL opens the list of word-density tests run to-date:
+![Screenshot 3](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/screenshot-3.png?raw=true)
+
+When clicking on the test, the word-density results are listed:
+![Screenshot 4](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/screenshot-4.png?raw=true)
+
+# Local Installation
 
 ### 1) Clone / Copy to project folder.
 
