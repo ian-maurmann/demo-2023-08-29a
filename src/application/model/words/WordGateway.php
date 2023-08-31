@@ -39,4 +39,75 @@ class WordGateway
         $this->database = $database;
     }
 
+    /**
+     * @param string $word
+     * @return int
+     * @throws PithException
+     * @throws Exception
+     */
+    public function obtainIdForWord(string $word): int
+    {
+        // Default to zero
+        $word_id = 0;
+
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Query
+        $sql = '
+            SELECT
+                *
+            FROM 
+                `words` AS w
+            WHERE
+                w.word = :word
+            ';
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute(
+            [
+                ':word' => $word,
+            ]
+        );
+
+        // Get results
+        $rows          = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $did_find_rows = $rows && count($rows);
+
+        if($did_find_rows){
+            $row = $rows[0];
+            $word_id = $row['word_id'];
+        }
+        else{
+            // Query
+            $sql = '
+            INSERT INTO `words`
+                (`word`) 
+            VALUES 
+                (:word) 
+            ';
+
+            // Prepare
+            $statement = $this->database->pdo->prepare($sql);
+
+            // Execute
+            $statement->execute(
+                [
+                    ':word' => $word,
+                ]
+            );
+
+            // Get inserted id
+            $word_id = $this->database->pdo->lastInsertId() ?: 0;
+            if($word_id === 0){
+                throw new Exception('Failed to insert to the words table.');
+            }
+        }
+
+        return (int) $word_id;
+    }
+
 }
