@@ -69,12 +69,17 @@ class DensityTestService
         // Get words
         $url_words = explode(' ', $url_content_text_less_whitespace);
 
+        // Get occurrences of words
+        $url_word_occurrences = array_count_values($url_words);
+        arsort($url_word_occurrences);
+
         // Build array of test info
         $density_test_info = [
-            'density_test_id'  => $test_id,
-            'url_content_html' => $url_content_html,
-            'url_content_text' => $url_content_text,
-            'url_words'        => $url_words,
+            'density_test_id'      => $test_id,
+            'url_content_html'     => $url_content_html,
+            'url_content_text'     => $url_content_text,
+            'url_words'            => $url_words,
+            'url_word_occurrences' => $url_word_occurrences,
         ];
 
         // Return test info
