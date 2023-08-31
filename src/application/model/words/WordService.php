@@ -44,8 +44,9 @@ class WordService
     {
         // Loop through the words
         $word_rank = 0;
-        foreach ($url_word_occurrences as $word_as_key => $occurrences){
-            $word = (string) $word_as_key; // Quick-fix for numbers sometimes being words
+        foreach ($url_word_occurrences as $word_as_key => $occurrences_as_value){
+            $word        = (string) $word_as_key; // Quick-fix for numbers sometimes being words
+            $occurrences = (int) $occurrences_as_value;
 
             // Increment the word's place in the ranking, we're starting at the highest, stopping a bit after 20.
             $word_rank++;
@@ -57,6 +58,10 @@ class WordService
 
             // Add word to the words table if it's not already there, Get the word id
             $word_id = $this->obtainIdForWord($word);
+
+            // Get word density per ten-thousand
+            $word_density = $this->getWordDensity($occurrences, $url_word_count);
+            $word_density_per_10k_as_int = (int) ($word_density * 10000);
         }
     }
 
@@ -70,6 +75,15 @@ class WordService
 
         // Return the new word id as int
         return $word_id;
+    }
+
+    public function getWordDensity(int $occurrences, int $word_count): float
+    {
+        // Get word density
+        $density = (float) $occurrences / (float) $word_count;
+        
+        // Return word density as float
+        return (float) $density;
     }
 
 
