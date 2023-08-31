@@ -6,8 +6,10 @@
         }
     ],
     "require": {
+        "ext-curl": "*",
         "ext-pdo": "*",
-        "pith/framework": "^0.30.0"
+        "pith/framework": "^0.30.0",
+        "html2text/html2text": "^4.3"
     },
     "autoload": {
         "psr-4": {
@@ -18,7 +20,9 @@
                 "src/application/",
                 "src/application/ajax-endpoints/add-new-url",
                 "src/application/ajax-endpoints/get-urls",
+                "src/application/ajax-endpoints/run-word-density-test",
                 "src/application/model/url-system",
+                "src/application/model/word-density-testing",
                 "src/application/pages/density-testing/",
                 "src/application/pages/lorem-ipsum/"
             ],
