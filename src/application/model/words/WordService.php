@@ -54,7 +54,7 @@ class WordService
             $word_rank++;
 
             // Once we've hit the low-rank words, stop looping
-            if($word_rank > 40){
+            if($word_rank > 55){
                 break;
             }
 

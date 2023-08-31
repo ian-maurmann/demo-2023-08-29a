@@ -434,22 +434,81 @@ WordDensityWidget.populateUrlTestWordList = function(url_listing, test_listing, 
     // Loop through the test words
     let is_first  = true;
     let each_else = true;
+    let iteration = 0;
     $.each(test_words, function(test_word_row_index, test_word_row) {
         each_else = false;
+        iteration ++;
 
-        if(is_first){
-            test_word_list_div.append('<b>Words:</b>');
+        // Break after 20
+        if(iteration > 20){
+            return false; // break loop
         }
 
-        let url_listing_test_word_list_html = '' +
-            '<div class="url-test-word">' +
-                '<span>' + test_word_row.word + '</span>' +
-            '</div>';
+        // First Loop only
+        if(is_first){
+            test_word_list_div.append('<b>Words:</b>');
+            test_word_list_div.append('<table class="url-test-words-table">');
 
-        test_word_list_div.append(url_listing_test_word_list_html);
+        }
+
+        let test_word_table = test_word_list_div.find('.url-test-words-table').first();
+
+        // Get word
+        let word_string = String(test_word_row.word);
+
+        // Get rank
+        let rank        = parseInt(test_word_row_index) + 1;
+        let rank_string = String(rank) + '.';
+
+        // Get density
+        let density_per_10k_as_int    = parseInt(test_word_row.word_density);
+        let density_percent_as_float  = density_per_10k_as_int / 100;
+        let density_percent_as_string = String(density_percent_as_float) + '%';
+
+        // Get occurrences / word_count
+        let word_count = parseInt(test_word_row.word_count);
+        let occurrences_string = '(Word appeared ' + String(word_count) + ' times)';
+
+        // Get grade
+        let grade = 'ok';
+        if(density_per_10k_as_int > 300){
+            grade = 'excellent';
+        }
+        else if(density_per_10k_as_int > 100){
+            grade = 'very-good';
+        }
+        else if(density_per_10k_as_int > 75){
+            grade = 'good';
+        }
+
+        // Get if word is over-common
+        let is_common_syntax_word = parseInt(test_word_row.is_common_syntax_word) > 0;
+        let commonality = is_common_syntax_word ? '(Too common for word-searching)' : '';
+
+        if(is_common_syntax_word){
+            // rank_string               = '(' + rank_string + ')';
+            word_string               = '(' + word_string + ')';
+            density_percent_as_string = '(' + density_percent_as_string + ')';
+        }
+
+
+        let tr = '' +
+            '<tr>' +
+                '<td>' + rank_string + '</td>' +
+                '<td>' + word_string + '</td>' +
+                '<td>' +
+                    '<span class="test-word-result-density" data-grade="' + grade + '">' + density_percent_as_string + '</span>' +
+                    ' ' +
+                    '<span class="test-word-result-occurrences">' + occurrences_string + '</span>' +
+                '</td>' +
+                '<td>' + commonality + '</td>' +
+            '</tr>';
+
+        test_word_table.append(tr);
 
         is_first = false;
     });
+    // Else
     if(each_else){
         test_word_list_div.append('<i>No words saved with test. Please run a new test.</i>');
     }
