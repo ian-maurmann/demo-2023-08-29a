@@ -31,13 +31,15 @@ use Pith\Framework\PithException;
 class DensityTestService
 {
     private DensityTestGateway $density_test_gateway;
-    private UrlGateway $url_gateway;
+    private UrlService $url_service;
+    private WordService $word_service;
 
-    public function __construct(DensityTestGateway $density_test_gateway, UrlGateway $url_gateway)
+    public function __construct(DensityTestGateway $density_test_gateway, UrlService $url_service, WordService $word_service)
     {
         // Set object dependencies:
         $this->density_test_gateway = $density_test_gateway;
-        $this->url_gateway          = $url_gateway;
+        $this->url_service          = $url_service;
+        $this->word_service         = $word_service;
     }
 
     /**
@@ -69,9 +71,14 @@ class DensityTestService
         // Get words
         $url_words = explode(' ', $url_content_text_less_whitespace);
 
+        // Get the total word count
+        $url_word_count = count($url_words);
+
         // Get occurrences of words
         $url_word_occurrences = array_count_values($url_words);
         arsort($url_word_occurrences);
+
+        $this->word_service->saveTopUrlWords($url_id, $url, $test_id, $url_word_count, $url_word_occurrences);
 
         // Build array of test info
         $density_test_info = [
