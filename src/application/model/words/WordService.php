@@ -29,11 +29,13 @@ use Pith\Framework\PithException;
  */
 class WordService
 {
+    private DensityTestWordGateway $density_test_word_gateway;
     private WordGateway $word_gateway;
 
-    public function __construct(WordGateway $word_gateway)
+    public function __construct(DensityTestWordGateway $density_test_word_gateway, WordGateway $word_gateway)
     {
         // Set object dependencies:
+        $this->density_test_word_gateway = $density_test_word_gateway;
         $this->word_gateway = $word_gateway;
     }
 
@@ -62,6 +64,9 @@ class WordService
             // Get word density per ten-thousand
             $word_density = $this->getWordDensity($occurrences, $url_word_count);
             $word_density_per_10k_as_int = (int) ($word_density * 10000);
+
+            // Save the word info on the test
+            $test_word_id = $this->density_test_word_gateway->addTestWord($test_id, $word_id, $occurrences, $word_density_per_10k_as_int);
         }
     }
 
@@ -81,7 +86,7 @@ class WordService
     {
         // Get word density
         $density = (float) $occurrences / (float) $word_count;
-        
+
         // Return word density as float
         return (float) $density;
     }
