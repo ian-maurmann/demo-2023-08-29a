@@ -121,4 +121,16 @@ class DensityTestService
         return $worked ? $response : false;
     }
 
+    /**
+     * @throws PithException
+     */
+    public function getTestsForUrl(int $url_id): array
+    {
+        // Get row-set array of URL test
+        $tests = $this->density_test_gateway->getTestsForUrl($url_id);
+
+        // Return array
+        return $tests;
+    }
+
 }

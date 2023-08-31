@@ -79,4 +79,44 @@ class DensityTestGateway
     }
 
 
+    /**
+     * @param int $url_id
+     * @return array
+     * @throws PithException
+     */
+    public function getTestsForUrl(int $url_id): array
+    {
+        // Connect if not connected
+        $this->database->connectOnce();
+
+        // Query
+        $sql = '
+            SELECT
+                *
+            FROM 
+                density_tests AS t
+            WHERE
+                t.url_id = :url_id
+            ';
+
+        // Prepare
+        $statement = $this->database->pdo->prepare($sql);
+
+        // Execute
+        $statement->execute(
+            [
+                ':url_id' => $url_id,
+            ]
+        );
+
+        // Get results
+        $rows          = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $did_find_rows = $rows && count($rows);
+        $results       = $did_find_rows ? $rows : [];
+
+        // Return results
+        return $results;
+    }
+
+
 }
