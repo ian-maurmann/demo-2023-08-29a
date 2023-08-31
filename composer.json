@@ -6,7 +6,10 @@
         }
     ],
     "require": {
-        "pith/framework": "^0.30.0"
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "pith/framework": "^0.30.0",
+        "html2text/html2text": "^4.3"
     },
     "autoload": {
         "psr-4": {
@@ -15,11 +18,20 @@
             ],
             "WordDensityDemo\\WordDensityApplication\\": [
                 "src/application/",
+                "src/application/ajax-endpoints/add-new-url",
+                "src/application/ajax-endpoints/get-url-test-words",
+                "src/application/ajax-endpoints/get-url-tests",
+                "src/application/ajax-endpoints/get-urls",
+                "src/application/ajax-endpoints/run-word-density-test",
+                "src/application/model/urls",
+                "src/application/model/tests",
+                "src/application/model/words",
                 "src/application/pages/density-testing/",
                 "src/application/pages/lorem-ipsum/"
             ],
             "WordDensityDemo\\WordDensityTheme\\": [
                 "src/theme/",
+                "src/theme/favicons",
                 "src/theme/main-layout",
                 "src/theme/theme-resources/"
             ],

@@ -21,11 +21,12 @@ use Pith\Framework\PithRoute;
  */
 class DensityTestingRoute extends PithRoute
 {
-    public string $route_type   = 'page';
-    public string $pack         = '\\WordDensityDemo\\WordDensityApplication\\WordDensityApplicationPack';
-    public string $access_level = 'world';
-    public string $view         = '[^route_folder]/density-testing.latte';
-    public string $layout       = '\\WordDensityDemo\\WordDensityTheme\\MainLayoutRoute';
+    public string $route_type       = 'page';
+    public string $pack             = '\\WordDensityDemo\\WordDensityApplication\\WordDensityApplicationPack';
+    public string $access_level     = 'world';
+    public string $view_requisition = '\\WordDensityDemo\\WordDensityApplication\\DensityTestingViewRequisition';
+    public string $view             = '[^route_folder]/density-testing-view.latte';
+    public string $layout           = '\\WordDensityDemo\\WordDensityTheme\\MainLayoutRoute';
 
     public string $page_title       = WORD_DENSITY_APP_MAIN_TITLE;
     public string $meta_keywords    = 'density testing, demo, keyword, keywords';

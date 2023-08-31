@@ -32,7 +32,7 @@ final class Version20230830014209 extends AbstractMigration
         $this->addSql('
             CREATE TABLE urls (
                 `url_id` INT AUTO_INCREMENT NOT NULL, 
-                `url` VARCHAR(191) NOT NULL,
+                `url` VARCHAR(191) UNIQUE NOT NULL,
                 `datetime_added` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY(url_id)
             )
