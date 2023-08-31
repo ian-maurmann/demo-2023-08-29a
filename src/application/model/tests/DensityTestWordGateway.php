@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Word Gateway
- * ------------
+ * Density Test Word Gateway
+ * -------------------------
  *
  * @noinspection PhpPropertyNamingConventionInspection      - Long property names are ok.
  * @noinspection PhpMethodNamingConventionInspection        - Long method names are ok.
@@ -26,10 +26,10 @@ use Pith\Framework\PithDatabaseWrapper;
 use Pith\Framework\PithException;
 
 /**
- * Class WordGateway
+ * Class DensityTestWordGateway
  * @package WordDensityDemo\WordDensityApplication
  */
-class WordGateway
+class DensityTestWordGateway
 {
     private PithDatabaseWrapper $database;
 
@@ -40,27 +40,27 @@ class WordGateway
     }
 
     /**
-     * @param string $word
+     * @param int $test_id
+     * @param int $word_id
+     * @param int $occurrences
+     * @param int $word_density_per_10k_as_int
      * @return int
-     * @throws PithException
-     * @throws Exception
+     * @throws Exception|PithException
      */
-    public function obtainIdForWord(string $word): int
+    public function addTestWord(int $test_id, int $word_id, int $occurrences, int $word_density_per_10k_as_int): int
     {
         // Default to zero
-        $word_id = 0;
+        $inserted_id = 0;
 
         // Connect if not connected
         $this->database->connectOnce();
 
         // Query
         $sql = '
-            SELECT
-                *
-            FROM 
-                `words` AS w
-            WHERE
-                w.word = :word
+            INSERT INTO `density_test_words`
+                (density_test_id, word_id, word_count, word_density) 
+            VALUES 
+                (:density_test_id, :word_id, :word_count, :word_density) 
             ';
 
         // Prepare
@@ -69,45 +69,21 @@ class WordGateway
         // Execute
         $statement->execute(
             [
-                ':word' => $word,
+                ':density_test_id' => $test_id,
+                ':word_id'         => $word_id,
+                ':word_count'      => $occurrences,
+                ':word_density'    => $word_density_per_10k_as_int,
             ]
         );
 
-        // Get results
-        $rows          = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $did_find_rows = $rows && count($rows);
-
-        if($did_find_rows){
-            $row = $rows[0];
-            $word_id = $row['word_id'];
-        }
-        else{
-            // Query
-            $sql = '
-            INSERT INTO `words`
-                (`word`) 
-            VALUES 
-                (:word) 
-            ';
-
-            // Prepare
-            $statement = $this->database->pdo->prepare($sql);
-
-            // Execute
-            $statement->execute(
-                [
-                    ':word' => $word,
-                ]
-            );
-
-            // Get inserted id
-            $word_id = $this->database->pdo->lastInsertId() ?: 0;
-            if($word_id === 0){
-                throw new Exception('Failed to insert to the words table.');
-            }
+        // Get inserted id
+        $inserted_id = $this->database->pdo->lastInsertId() ?: 0;
+        if($inserted_id === 0){
+            throw new Exception('Failed to insert to the density_test_words table.');
         }
 
-        return (int) $word_id;
+        // Return the inserted id
+        return (int) $inserted_id;
     }
 
 }
