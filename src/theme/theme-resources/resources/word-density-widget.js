@@ -339,7 +339,7 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
         }
 
         let url_listing_test_list_html = '' +
-            '<div class="url-test" data-is-opened="no" data-did-already-load-test-words="no">' +
+            '<div class="url-test" data-is-opened="no" data-did-already-load-test-words="no" data-test-id="' + test.density_test_id + '">' +
                 '<div class="url-test-heading-clickable" data-click-event="word-density-ui >>> click-url-test-listing"> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</div>' +
                 '<div class="url-test-tray">' +
                     '<div> Test ID: #' + test.density_test_id + '</div>' +
@@ -376,6 +376,50 @@ WordDensityWidget.handleOnToggleUrlTestListing = function(element, event){
     else{
         test_listing.attr('data-is-opened', 'yes');
     }
+
+    // Load test words
+    if(!are_test_words_loaded){
+        self.reloadTestWordsForTestListing(url_listing, test_listing);
+    }
+}
+
+
+
+// Reload Tests For URL Listing
+WordDensityWidget.reloadTestWordsForTestListing = function(url_listing, test_listing){
+    let self           = WordDensityWidget;
+    let url_id         = url_listing.attr('data-url-id');
+    let test_word_list = test_listing.find('.url-test-word-list').first();
+    let test_id        = test_listing.attr('data-test-id');
+
+    let fields = {
+        test_id : test_id
+    }
+
+    // Make an ajax request
+    let jqxhr = $.post( "/ajax/get-url-test-words", fields, function() {
+        // Do nothing for now
+    }).done(function(data) {
+        let message_status = data.hasOwnProperty('message_status') ? data.message_status : 'error';
+        let is_message_success = message_status === 'success';
+        let action_status = data.hasOwnProperty('action_status') ? data.action_status : 'error';
+        let is_action_success = action_status === 'success';
+        let endpoint_data = data.hasOwnProperty('data') ? data.data : {};
+        let tests = endpoint_data.hasOwnProperty('tests') ? endpoint_data.tests : {};
+
+        if (is_message_success && is_action_success) {
+            test_word_list.html('(Loaded!)');
+
+            //self.populateUrlTestList(listing, test_list, tests); TODO
+
+            // Tell the URL listing that the test are already loaded
+            test_listing.attr('data-did-already-load-test-words', 'yes')
+        }
+        else{
+            // Show failure message
+            test_listing.html('(Encountered a problem while loading test words)');
+        }
+    });
 }
 
 // Run Construct on page load
