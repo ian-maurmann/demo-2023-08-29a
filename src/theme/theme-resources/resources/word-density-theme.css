@@ -165,4 +165,16 @@
     .url-test-heading-clickable:hover{
         color: var(--ox-color-tw-sky-500);
     }
+
+    /* ========================================== */
+
+    .url-test .url-test-tray{
+        display: none;
+        padding: 1ex 1em 1em 1em;
+        border: 2px solid var(--ox-color-ant-gold-3);
+        background-color: #ffffff;
+    }
+    .url-test[data-is-opened="yes"] .url-test-tray{
+        display: block;
+    }
 }

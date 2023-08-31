@@ -26,9 +26,10 @@ WordDensityWidget.listen = function(){
     let self = WordDensityWidget;
 
     // Click Events
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',           'click', self.handleOnClickAddNewUrlButton);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]', 'click', self.handleOnToggleUrlListing);
-    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',          'click', self.handleOnClickRunTestButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> add-url"]',                'click', self.handleOnClickAddNewUrlButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-listing"]',      'click', self.handleOnToggleUrlListing);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> run-test"]',               'click', self.handleOnClickRunTestButton);
+    Ox.Event.delegate('[data-click-event="word-density-ui >>> click-url-test-listing"]', 'click', self.handleOnToggleUrlTestListing);
 }
 
 
@@ -227,6 +228,7 @@ WordDensityWidget.handleOnToggleUrlListing = function(element, event){
     }
 }
 
+
 // Handle On Click "Run Test" Button
 WordDensityWidget.handleOnClickRunTestButton = function(element, event){
     let self    = WordDensityWidget;
@@ -337,8 +339,12 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
         }
 
         let url_listing_test_list_html = '' +
-            '<div class="url-test">' +
-                '<div class="url-test-heading-clickable"> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</div>' +
+            '<div class="url-test" data-is-opened="no" data-did-already-load-test-words="no">' +
+                '<div class="url-test-heading-clickable" data-click-event="word-density-ui >>> click-url-test-listing"> <i class="fa-solid fa-layer-group"></i> Test #' + test.density_test_id + ' run on ' + test.datetime_ran_test + '</div>' +
+                '<div class="url-test-tray">' +
+                    '<div> Test ID: #' + test.density_test_id + '</div>' +
+                    '<div> Test run on: ' + test.datetime_ran_test + '</div>' +
+                '</div>' +
             '</div>';
 
         test_list_div.append(url_listing_test_list_html);
@@ -347,6 +353,25 @@ WordDensityWidget.populateUrlTestList = function(listing, test_list_div, tests){
     });
     if(each_else){
         test_list_div.append('<i>No tests have been run yet. Run a test.</i>');
+    }
+}
+
+
+// Handle On Toggle Url Test Listing
+WordDensityWidget.handleOnToggleUrlTestListing = function(element, event){
+    let self                  = WordDensityWidget;
+    let current_element       = $(element);
+    let url_listing           = current_element.parent().closest('.url-listing');
+    let test_listing          = current_element.parent().closest('.url-test');
+    let is_open               = test_listing.attr('data-is-opened') === 'yes';
+    let are_test_words_loaded = test_listing.attr('data-did-already-load-test-words') === 'yes';
+
+    // Toggle
+    if(is_open){
+        test_listing.attr('data-is-opened', 'no');
+    }
+    else{
+        test_listing.attr('data-is-opened', 'yes');
     }
 }
 
