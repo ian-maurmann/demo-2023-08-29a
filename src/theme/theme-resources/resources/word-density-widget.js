@@ -182,7 +182,7 @@ WordDensityWidget.populateUrlList = function(url_results){
     $.each(url_results, function( result_index, result ) {
 
         let url_listing_html = '' +
-            '<div class="url-listing" data-is-opened="no" data-url-id="' + result.url_id + '" data-url="' + result.url + '">' +
+            '<div class="url-listing" data-is-opened="no" data-url-id="' + result.url_id + '" data-url="' + result.url + '" data-did-already-load-tests="no">' +
                 '<div class="url-listing-row" data-click-event="word-density-ui >>> click-url-listing">' +
                     '<span class="url-listing-row-text-span"> <i class="fa-solid fa-globe"></i> ' + result.url + '</span>' +
                 '</div>' +
@@ -207,10 +207,11 @@ WordDensityWidget.populateUrlList = function(url_results){
 
 // Handle On Toggle Url Listing
 WordDensityWidget.handleOnToggleUrlListing = function(element, event){
-    let self        = WordDensityWidget;
-    let listing_row = $(element);
-    let listing     = listing_row.parent().closest('.url-listing');
-    let is_open     = listing.attr('data-is-opened') === 'yes';
+    let self            = WordDensityWidget;
+    let current_element = $(element);
+    let listing         = current_element.parent().closest('.url-listing');
+    let is_open         = listing.attr('data-is-opened') === 'yes';
+    let are_test_loaded = listing.attr('data-did-already-load-tests') === 'yes';
 
     // Toggle
     if(is_open){
@@ -220,6 +221,10 @@ WordDensityWidget.handleOnToggleUrlListing = function(element, event){
         listing.attr('data-is-opened', 'yes');
     }
 
+    // Load tests
+    if(!are_test_loaded){
+        self.loadTestsForUrlListing(listing);
+    }
 }
 
 // Handle On Click "Run Test" Button
@@ -276,6 +281,13 @@ WordDensityWidget.handleOnClickRunTestButton = function(element, event){
     });
 }
 
+// Load Tests For URL Listing
+WordDensityWidget.loadTestsForUrlListing = function(listing){
+    let self      = WordDensityWidget;
+    let test_list = listing.find('.url-test-list').first();
+
+    alert('Boo');
+}
 
 // Run Construct on page load
 $(document).ready(function() {
