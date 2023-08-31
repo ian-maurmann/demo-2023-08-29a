@@ -49,7 +49,8 @@ class RunWordDensityTestAjaxAction extends PithAction
             if($is_url_valid){
                 $density_test_info = $this->density_test_service->runWordDensityTest((int) $url_id_unsafe, $url_unsafe);
                 $test_id           = $density_test_info['density_test_id'];
-                $url_content       = $density_test_info['url_content'];
+                $url_content_html  = $density_test_info['url_content_html'];
+                $url_content_text  = $density_test_info['url_content_text'];
                 $is_successful     = $test_id > 0;
             }
             else{
@@ -64,9 +65,10 @@ class RunWordDensityTestAjaxAction extends PithAction
             'message_status' => 'success',
             'action_status'  => $is_successful ? 'success' : 'failure',
             'data'           => [
-                'problem'     => $problem,
-                'test_id'     => $test_id ?? 0,
-                'url_content' => $url_content ?? '',
+                'problem'          => $problem,
+                'test_id'          => $test_id ?? 0,
+                'url_content_html' => $url_content_html ?? '',
+                'url_content_text' => $url_content_text ?? '',
             ],
         ];
 

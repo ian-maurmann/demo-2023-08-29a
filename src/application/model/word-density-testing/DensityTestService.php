@@ -21,6 +21,7 @@ namespace WordDensityDemo\WordDensityApplication;
 
 
 use Exception;
+use Html2Text\Html2Text;
 use Pith\Framework\PithException;
 
 /**
@@ -44,14 +45,19 @@ class DensityTestService
      */
     public function runWordDensityTest(int $url_id, string $url): array
     {
-        $test_id     = $this->density_test_gateway->insertNewDensityTest($url_id);
-        $url_content = $this->fetchUrlContent($url);
+        $test_id          = $this->density_test_gateway->insertNewDensityTest($url_id);
+        $url_content_html = $this->fetchUrlContent($url);
+        $html2text        = new Html2Text($url_content_html);
+        $url_content_text = $html2text->getText();
 
+        // Build array of test info
         $density_test_info = [
-            'density_test_id' => $test_id,
-            'url_content'     => $url_content,
+            'density_test_id'  => $test_id,
+            'url_content_html' => $url_content_html,
+            'url_content_text' => $url_content_text,
         ];
 
+        // Return test info
         return $density_test_info;
     }
 
