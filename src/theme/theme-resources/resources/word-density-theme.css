@@ -94,6 +94,8 @@
 
     /* ========================================== */
 
+    /* URL Listing */
+
     .url-listing .url-listing-row{
         display: block;
         padding: 9px 1em;
@@ -103,31 +105,29 @@
         transition-duration: 0.6s;
     }
     .url-listing:nth-child(odd) .url-listing-row {
-        /* background: var(--ox-color-ant-gold-3); */
         background: var(--ox-color-tw-neutral-200);
     }
     .url-listing:nth-child(even) .url-listing-row {
-        /* background: var(--ox-color-ant-gold-1); */
         background: var(--ox-color-tw-neutral-100);
     }
     .url-listing .url-listing-row:hover,
     .url-listing:nth-child(odd) .url-listing-row:hover,
     .url-listing:nth-child(even) .url-listing-row:hover,
     .url-listing[data-is-opened="yes"] .url-listing-row{
-        /* background: var(--ox-color-ant-blue-4); */
         background: var(--ox-color-ant-gold-3);
     }
 
 
-
-
-
-    .url-listing-row-text-span{
+    /* URL Listing text */
+    .url-listing .url-listing-row .url-listing-row-text-span{
         color: var(--ox-color-tw-sky-700);
         font-weight: bold;
     }
+    .url-listing .url-listing-row:hover .url-listing-row-text-span{
+        color: var(--ox-color-tw-sky-500);
+    }
 
-
+    /* ========================================== */
 
     .url-listing .url-listing-tray{
         display: none;
@@ -145,8 +145,9 @@
         display: block;
     }
 
+    /* ========================================== */
 
-
+    /* Test List */
     .url-listing-tray .url-test-list{
         margin: 1em 0em 1em 0em;
     }
