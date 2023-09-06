@@ -346,3 +346,5 @@ require 'public-web/index.php';
 ```
 
 (If there's an index.html file, rename or delete it so that it doesn't take precedence over index.php)
+
+The project should be live and running on the web server now.
