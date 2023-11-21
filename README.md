@@ -175,6 +175,9 @@ git clone https://github.com/ian-maurmann/demo-2023-08-29a.git
 
 There should now be a demo-2023-08-29a/ folder inside of repositories/
 
+![Screenshot 1](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/clone.png?raw=true)
+
+
 ```bash
 ls
 ```
@@ -268,10 +271,16 @@ php mig
 php mig migrations:list
 ```
 
-- (If your env isn't configured correctly above, you'll get an error like:
+- (If your env.php isn't configured correctly above, you'll get an error like:
+
+![Screenshot 1](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/server-mig-errors.png?raw=true)
 
 )
 
+If your env.php is correct though, you should now see the list in yellow
+
+
+![Screenshot 1](https://github.com/ian-maurmann/demo-2023-08-29a/blob/master/data/doc-images/server-mig-list.png?raw=true)
 
 
 
@@ -337,3 +346,5 @@ require 'public-web/index.php';
 ```
 
 (If there's an index.html file, rename or delete it so that it doesn't take precedence over index.php)
+
+The project should be live and running on the web server now.
